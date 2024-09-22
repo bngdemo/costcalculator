@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversion Cost Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Conversion Cost Calculator</h1>
+
+    <label for="linkedIn">Conversions from LinkedIn:</label>
+    <input type="number" id="linkedIn" placeholder="Enter number of conversions" value="0">
+
+    <label for="instagram">Conversions from Instagram:</label>
+    <input type="number" id="instagram" placeholder="Enter number of conversions" value="0">
+
+    <label for="google">Conversions from Google Ads:</label>
+    <input type="number" id="google" placeholder="Enter number of conversions" value="0">
+
+    <button onclick="calculateCost()">Generate</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Channel</th>
+          <th>Conversions</th>
+          <th>Traffic Needed</th>
+          <th>Signups Generated</th>
+          <th>Total Cost (INR)</th>
+        </tr>
+      </thead>
+      <tbody id="result"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function calculateCost() {
+      // Conversion rates and CPC for each platform
+      const linkedinConversionRate = 15 / 100;
+      const linkedinCPC = 70;
+
+      const instagramConversionRate = 5 / 100;
+      const instagramCPC = 15;
+
+      const googleConversionRate = 20 / 100;
+      const googleCPC = 30;
+
+      // User inputs for number of conversions
+      const linkedInConversions = parseInt(document.getElementById("linkedIn").value) || 0;
+      const instagramConversions = parseInt(document.getElementById("instagram").value) || 0;
+      const googleConversions = parseInt(document.getElementById("google").value) || 0;
+
+      // Calculating traffic needed, signups generated, and total cost for LinkedIn
+      const linkedInSignupsNeeded = linkedInConversions / linkedinConversionRate;
+      const linkedInTraffic = linkedInSignupsNeeded / (5 / 100); // Assuming 5% traffic-to-signup rate
+      const linkedInCost = linkedInTraffic * linkedinCPC;
+
+      // Calculating traffic needed, signups generated, and total cost for Instagram
+      const instagramSignupsNeeded = instagramConversions / instagramConversionRate;
+      const instagramTraffic = instagramSignupsNeeded / (2 / 100); // Assuming 2% traffic-to-signup rate
+      const instagramCost = instagramTraffic * instagramCPC;
+
+      // Calculating traffic needed, signups generated, and total cost for Google Ads
+      const googleSignupsNeeded = googleConversions / googleConversionRate;
+      const googleTraffic = googleSignupsNeeded / (3 / 100); // Assuming 3% traffic-to-signup rate
+      const googleCost = googleTraffic * googleCPC;
+
+      // Populate the table with results
+      const result = document.getElementById("result");
+      result.innerHTML = `
+        <tr>
+          <td>LinkedIn</td>
+          <td>${linkedInConversions}</td>
+          <td>${Math.round(linkedInTraffic)}</td>
+          <td>${Math.round(linkedInSignupsNeeded)}</td>
+          <td>₹${Math.round(linkedInCost)}</td>
+        </tr>
+        <tr>
+          <td>Instagram</td>
+          <td>${instagramConversions}</td>
+          <td>${Math.round(instagramTraffic)}</td>
+          <td>${Math.round(instagramSignupsNeeded)}</td>
+          <td>₹${Math.round(instagramCost)}</td>
+        </tr>
+        <tr>
+          <td>Google Ads</td>
+          <td>${googleConversions}</td>
+          <td>${Math.round(googleTraffic)}</td>
+          <td>${Math.round(googleSignupsNeeded)}</td>
+          <td>₹${Math.round(googleCost)}</td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td><strong>${linkedInConversions + instagramConversions + googleConversions}</strong></td>
+          <td><strong>${Math.round(linkedInTraffic + instagramTraffic + googleTraffic)}</strong></td>
+          <td><strong>${Math.round(linkedInSignupsNeeded + instagramSignupsNeeded + googleSignupsNeeded)}</strong></td>
+          <td><strong>₹${Math.round(linkedInCost + instagramCost + googleCost)}</strong></td>
+        </tr>
+      `;
+    }
+  </script>
+</body>
+</html>
